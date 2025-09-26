@@ -9,11 +9,11 @@ void removeChar(char* string, int index){
     string[x] = string[x+1];}
 }
 int main(){
-  char input[80]; //the input string
-  int indexies[80]; //the indexies of all characters that will be removed
+  char input[81]; //the input string
+  int indexies[81]; //the indexies of all characters that will be removed
   int indexcount = 0;
   char punctuation[]= R"(!"#$%&'( )*+,-./:;<=>?@[\]^_`{|}~)"; // took this line from chatpt cause i aint typing allat
-  cin.getline(input,80);
+  cin.getline(input,81);
   for(int c=0;c<strlen(input);c++){ //runs through the whole input string to check if each character is a punctuation
     for(int p=0; p<strlen(punctuation);p++){
       if(input[c]==punctuation[p]){ 
