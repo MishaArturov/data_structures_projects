@@ -238,5 +238,9 @@ int main() {
             cout<<"incorrect command type"<<endl;
         }
     }
+    for(auto media : database) {//clears memory
+        delete media;
+    }
+    database.clear();
     return 0;
 }
