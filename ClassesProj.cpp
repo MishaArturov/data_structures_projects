@@ -183,6 +183,57 @@ int main() {
                 cout << "Invalid search type." << endl;
             }
         }
+        else if(strcmp(command, "DELETE") == 0) {//delete mostly the same as search
+            char choice[10];
+            cout << "Search by TITLE or YEAR? ";
+            cin >> choice;
+            for(int x=0; x<strlen(choice); x++){
+                 choice[x] = toupper(choice[x]);
+            }
+
+            if(strcmp(choice, "TITLE") == 0) {//if search by title
+                char searchTitle[30];
+                cout << "Enter title to search: ";
+                cin.ignore();
+                cin.getline(searchTitle, 30);//stores title
+
+                bool found = false;
+                for(auto media : database) {//looks through the vector
+                    if(strcmp(media->title, searchTitle) == 0) {//compares media title with search title
+                        delete *media; //deletes the pointer
+                        database.erase(media); //erases student from vector
+                        //cpied above 2 from previous project
+                        found = true;
+                    }
+                }
+                if(!found) cout << "No media found with that title." << endl;//returns if no media found
+                else{
+                    cout<<"deleted all listed media"<<endl;
+                }
+            }
+            else if(strcmp(choice, "YEAR") == 0) {//if search by year
+                int searchYear;
+                cout << "Enter year to search: ";
+                cin >> searchYear;//stores year
+
+                bool found = false;
+                for(auto media : database) {
+                    if(media->year == searchYear) {//compares years
+                        delete *media; //deletes the pointer
+                        database.erase(media); //erases student from vector
+                        //cpied above 2 from previous project
+                        found = true;
+                    }
+                }
+                if(!found) cout << "No media found from that year." << endl;
+                else{
+                    cout<<"deleted all listed media"<<endl;
+                }
+            }
+            else {
+                cout << "Invalid search type." << endl;
+            }
+        }
         else{
             cout<<"incorrect command type"<<endl;
         }
