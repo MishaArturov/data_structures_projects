@@ -85,11 +85,27 @@ int main() {
         else if(strcmp(command, "ADD") == 0) {
             int year;
             char title[30];
+            char type[10];
             cout<<"what is the title for media?"<<endl;
             cin.ignore();//clears prev cin
             cin.getline(title,30);//gets title
             cout<<"what is the year? ";
             cin>>year;
+
+            cout<<"what is the type of media? (GAME,MOVIE,MUSIC)"<<endl;
+            cin>>type;//gets type
+            for(int x=0; x<strlen(type);x++){//turns into upperacse
+                type[x] = toupper(type[x]);
+            }
+            if(strcmp(type, "GAME") == 0){//if type is game
+                char publisher[30];
+                int rating;
+                cout<<"who is the game publisher?"<<endl;
+                cin.ignore();//clears prev cin
+                cin.getline(publisher,30);//gets title
+                cout<<"what is the rating? (integer) ";
+                cin>>rating;
+            }
         }
     }
     return 0;
