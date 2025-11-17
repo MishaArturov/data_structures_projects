@@ -72,6 +72,16 @@ class Movie : public DigitalMedia {
 };
 
 int main() {
-
+    while(true){//main loop
+        char command[10];
+        cout<<"use commands: ADD,SEARCH,DELETE,QUIT"<<endl;
+        cin>>command;//gets command
+        for(int x=0; x<strlen(command);x++){//turns into upperacse
+            command[x] = toupper(command[x]);
+        }
+        if(strcmp(command,"QUIT")==0){
+            break;
+        }
+    }
     return 0;
 }
