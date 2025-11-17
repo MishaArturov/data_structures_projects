@@ -72,6 +72,7 @@ class Movie : public DigitalMedia {
 };
 
 int main() {
+    vector<DigitalMedia*> database; //vector of digital media type pointers
     while(true){//main loop
         char command[10];
         cout<<"use commands: ADD,SEARCH,DELETE,QUIT"<<endl;
@@ -102,9 +103,40 @@ int main() {
                 int rating;
                 cout<<"who is the game publisher?"<<endl;
                 cin.ignore();//clears prev cin
-                cin.getline(publisher,30);//gets title
+                cin.getline(publisher,30);//gets publisher
                 cout<<"what is the rating? (integer) ";
                 cin>>rating;
+                database.push_back(new VideoGame(title, year, publisher, rating)); //pushing back into vector
+                cout << "Game added!" << endl;
+            }
+            else if(strcmp(type, "MUSIC") == 0){//if type is music
+                char artist[30];
+                char publisher[30];
+                int duration;
+                cout<<"who is the music publisher?"<<endl;
+                cin.ignore();//clears prev cin
+                cin.getline(publisher,30);//gets piublisher
+                cout<<"what is the duration in seconds? (integer) ";
+                cin>>duration;
+                cout<<"who is the music artist ?"<<endl;
+                cin.ignore();//clears prev cin
+                cin.getline(artist,30);//gets artist
+                database.push_back(new Music(title, year, artist, duration,publisher));
+                cout << "Music added!" << endl;
+            }
+            else if(strcmp(type, "MOVIE") == 0){//if type is movie
+                char director[30];
+                int duration;
+                int rating;
+                cout<<"who is the director of the movie?"<<endl;
+                cin.ignore();//clears prev cin
+                cin.getline(director,30);//gets director
+                cout<<"what is the movie duration in minutes? (integer) ";
+                cin>>duration;
+                cout<<"what is the rating? (integer) ";
+                cin>>rating;
+                database.push_back(new Movie(title, year, director, duration, rating));
+                cout << "Movie added!" << endl;
             }
         }
     }
