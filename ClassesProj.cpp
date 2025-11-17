@@ -82,6 +82,15 @@ int main() {
         if(strcmp(command,"QUIT")==0){
             break;
         }
+        else if(strcmp(command, "ADD") == 0) {
+            int year;
+            char title[30];
+            cout<<"what is the title for media?"<<endl;
+            cin.ignore();//clears prev cin
+            cin.getline(title,30);//gets title
+            cout<<"what is the year? ";
+            cin>>year;
+        }
     }
     return 0;
 }
