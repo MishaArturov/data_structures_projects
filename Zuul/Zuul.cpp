@@ -141,9 +141,23 @@ int main()
         for (auto &e : rooms[currentRoom]->getItems()){ //prints items
             cout << e.name << endl;
         }
+        cout<<endl;
 
         char command[30];
         cin.getline(command,30);
+        if(strcmp(command, "quit") == 0){
+            cout<<"thanks for playing zuul";
+            gameOver = true;
+        }
+        else if(strcmp(command, "inventory") == 0){//shows inventory
+            if (inventory.empty()) {
+                cout << "You have nothing in your inventory.\n";
+            } else {
+                cout << "Inventory:\n";
+                for (auto &i : inventory)
+                    cout << i.name << "\n";
+            }
+        }
         
     }
 
