@@ -176,6 +176,17 @@ int main()
                 }
             }
         }
+        else {
+            string dir(command); //converts to string for map
+            auto &exits = rooms[currentRoom]->getExits();//exits list
+            if (exits.count(dir) > 0) {//checks there is an exit
+                currentRoom = exits[dir];//changes rooms
+                cout << "You move " << dir << ".\n";
+            } else {
+                cout << "You can't go that way.\n";
+            }
+        }
+
         
     }
 
