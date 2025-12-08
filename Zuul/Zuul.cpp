@@ -105,6 +105,18 @@ int main()
     rooms[13]->addExit("north", 9);
     rooms[13]->addExit("east", 14);
 
+    Item medkit = {"medkit", "A compact emergency medical kit"};
+    Item key = {"key", "A small metallic keyring holding a biometric-coded ignition key for the ship’s escape pods."};
+    Item gun = {"laser gun", "A compact, high-energy sidearm used by security personnel. The charge indicator glows a faint red, showing it’s still functional."};
+    Item clipboard = {"clipboard", "A lightweight metal clipboard holding several pages of crew logs and maintenance reports. Some entries look recently updated."};
+    Item plant = {"plant", "A small hydroponic plant growing in a nutrient gel pod. Its leaves glow faintly under low light, genetically engineered for space travel."};
+
+    rooms[3]->addItem(medkit);
+    rooms[2]->addItem(key);
+    rooms[8]->addItem(gun);
+    rooms[12]->addItem(clipboard);
+    rooms[5]->addItem(plant);
+
 
 
     return 0;
