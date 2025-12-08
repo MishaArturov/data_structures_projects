@@ -24,7 +24,16 @@ public:
     void addItem(const Item& item) {
         items.push_back(item);
     }
+    void removeItem(const char* itemName) {
+        for (auto i = items.begin(); i != items.end(); ++i) {
+            if (strcmp(i->name, itemName) == 0) {
+                items.erase(i);
+                return;
+            }
+        }
+    }
     map<string,int>& getExits() { return exits; } //function to return the exits
+    vector<Item>& getItems() { return items; }//returns items
     const char* getName() { return name; } //function to return name
     const char* getDescription() { return description; } //function to return description
 };
@@ -117,7 +126,26 @@ int main()
     rooms[12]->addItem(clipboard);
     rooms[5]->addItem(plant);
 
+    int currentRoom = 0; //index for the current room starts at 0
+    bool gameOver = false; //loop bool
 
+    cout << "Welcome to The Spaceship, your job is to escape it!"<<endl;
+    cout << "Commands: inventory, take <item>, drop <item>, quit.\nUse type one of the exit options to move"<<endl;
+    while(!gameOver){
+        cout<<"\nYou are in the "<< rooms[currentRoom]->getName()<<endl<<rooms[currentRoom]->getDescription()<<endl;//prints room name and description
+        cout<<"Exits:"<<endl;
+        for (auto &e : rooms[currentRoom]->getExits()){//prints exits
+            cout << e.first << endl;
+        }
+        cout<<"Items:"<<endl;
+        for (auto &e : rooms[currentRoom]->getItems()){ //prints items
+            cout << e.name << endl;
+        }
+
+        char command[30];
+        cin.getline(command,30);
+        
+    }
 
     return 0;
 }
