@@ -34,22 +34,78 @@ int main()
     vector<Room*> rooms; //rooms that will exist 
     vector<Item> inventory; //inventory of items
 
-    //rooms below
+    //0
     rooms.push_back(new Room("Bridge", "The central command hub of the ship. Holographic displays flicker with star charts and warnings."));
+    //1
     rooms.push_back(new Room("Crew Quarters", "Small sleeping pods line the walls. A quiet hum of the ship’s life support fills the air."));
+    //2
     rooms.push_back(new Room("Engineering Bay", "Engines thrum loudly. Tools float around in low gravity, held in place by magnetic nets."));
-    rooms.push_back(new Room("Cargo Hold", "Stacked crates float gently. The dim lights reveal strange markings on some containers."));
+    //3
     rooms.push_back(new Room("Medical Bay", "Sterile white surfaces and diagnostic screens glow softly. Something smells like disinfectant."));
+    //4
+    rooms.push_back(new Room("Cargo Hold", "Stacked crates float gently. The dim lights reveal strange markings on some containers."));
+    //5
     rooms.push_back(new Room("Hydroponics Garden", "Rows of plants grow under artificial sunlight, providing oxygen and fresh food for the crew."));
+    //6
     rooms.push_back(new Room("Observation Deck", "A massive window shows the endless void of space. Stars drift by in complete silence."));
-    rooms.push_back(new Room("Armory", "Weapon racks line the walls, secured by biometric locks. A faint metallic smell lingers."));
+    //7
     rooms.push_back(new Room("Main Hallway", "A long corridor illuminated by pulsing blue guidance lights."));
+    //8
+    rooms.push_back(new Room("Armory", "Weapon racks line the walls, secured by biometric locks. A faint metallic smell lingers."));
+    //9
     rooms.push_back(new Room("Communication Center", "Antennas and signal processors buzz as they maintain contact with distant stations."));
+    //10
     rooms.push_back(new Room("Cryosleep Chamber", "Tall pods containing hibernating passengers line the room, coated with frost."));
+    //11
     rooms.push_back(new Room("Reactor Core", "A glowing energy sphere pulses violently. Radiation shields keep danger at bay—mostly."));
+    //12
     rooms.push_back(new Room("AI Control Room", "Screens display the ship’s artificial intelligence routines. The atmosphere feels almost alive."));
+    //13
     rooms.push_back(new Room("Escape Pod Launch Room", "Small pods rest in launch tubes, ready for emergency evacuation. Red lights flash intermittently."));
+    //14
     rooms.push_back(new Room("End","You escaped the spaceship on the pod"));
+
+    rooms[0]->addExit("east", 1);
+
+    rooms[1]->addExit("west", 0);
+    rooms[1]->addExit("east", 7);
+    
+    rooms[2]->addExit("east", 3);
+
+    rooms[3]->addExit("west", 2);
+    rooms[3]->addExit("south", 7);
+
+    rooms[4]->addExit("north", 7);
+    rooms[4]->addExit("south", 5);
+
+    rooms[5]->addExit("north", 4);
+    rooms[5]->addExit("south", 9);
+    rooms[5]->addExit("west", 6);
+    rooms[6]->addExit("east", 5);
+
+    rooms[7]->addExit("west", 1);
+    rooms[7]->addExit("north", 3);
+    rooms[7]->addExit("south", 4);
+    rooms[7]->addExit("east", 8);
+
+    rooms[8]->addExit("west", 7);
+    rooms[8]->addExit("east", 12);
+
+    rooms[9]->addExit("north", 5);
+    rooms[9]->addExit("south", 13);
+
+    rooms[10]->addExit("south", 12);
+
+    rooms[11]->addExit("north", 12);
+
+    rooms[12]->addExit("north", 10);
+    rooms[12]->addExit("south", 11);
+    rooms[12]->addExit("west", 8);
+
+    rooms[13]->addExit("north", 9);
+    rooms[13]->addExit("east", 14);
+
+
 
     return 0;
 }
