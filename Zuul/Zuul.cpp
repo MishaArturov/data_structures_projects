@@ -180,8 +180,29 @@ int main()
             string dir(command); //converts to string for map
             auto &exits = rooms[currentRoom]->getExits();//exits list
             if (exits.count(dir) > 0) {//checks there is an exit
-                currentRoom = exits[dir];//changes rooms
-                cout << "You move " << dir << ".\n";
+                int nextRoom = exits[dir];//stores next room index
+                if (nextRoom == 14) {//checks if next room is last
+                    bool hasKey = false;//
+                    for (auto &i : inventory) {//checks inventory for key
+                        if (strcmp(i.name, "key") == 0) {
+                            hasKey = true;
+                            break;
+                        }
+                    }
+
+                    if (hasKey) {//if has key game ends
+                        currentRoom = nextRoom;
+                        cout << "You use the Escape Pod Key and launch the pod!\n";
+                        cout << rooms[currentRoom]->getDescription() << endl;
+                        cout << "Congratulations! You escaped the spaceship!\n";
+                        gameOver = true; // end game
+                    } else {
+                        cout << "You need the Escape Pod Key to enter!\n";//else asks for key
+                    }
+                } else {
+                    currentRoom = nextRoom;
+                    cout << "You move " << dir << ".\n";//moves
+                }
             } else {
                 cout << "You can't go that way.\n";
             }
