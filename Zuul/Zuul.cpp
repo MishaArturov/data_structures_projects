@@ -210,6 +210,10 @@ int main()
 
         
     }
-
+    for (auto r : rooms) {//clears data
+        delete r;
+    }
+    rooms.clear();
     return 0;
 }
+
