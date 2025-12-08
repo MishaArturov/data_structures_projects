@@ -24,14 +24,6 @@ public:
     void addItem(const Item& item) {
         items.push_back(item);
     }
-    void removeItem(const char* itemName) {
-        for (auto i = items.begin(); i != items.end(); ++i) {
-            if (strcmp(i->name, itemName) == 0) {
-                items.erase(i);
-                return;
-            }
-        }
-    }
     map<string,int>& getExits() { return exits; } //function to return the exits
     vector<Item>& getItems() { return items; }//returns items
     const char* getName() { return name; } //function to return name
@@ -130,7 +122,7 @@ int main()
     bool gameOver = false; //loop bool
 
     cout << "Welcome to The Spaceship, your job is to escape it!"<<endl;
-    cout << "Commands: inventory, take <item>, drop <item>, quit.\nUse type one of the exit options to move"<<endl;
+    cout << "Commands: inventory, take, drop, quit.\nUse type one of the exit options to move"<<endl;
     while(!gameOver){
         cout<<"\nYou are in the "<< rooms[currentRoom]->getName()<<endl<<rooms[currentRoom]->getDescription()<<endl;//prints room name and description
         cout<<"Exits:"<<endl;
@@ -156,6 +148,32 @@ int main()
                 cout << "Inventory:\n";
                 for (auto &i : inventory)
                     cout << i.name << "\n";
+            }
+        }
+        else if (strcmp(command, "take") == 0){
+            cout<<"what item to take?"<<endl;
+            char itemName[30];
+            cin.getline(itemName,30);
+            for (auto i = rooms[currentRoom]->items.begin(); i != rooms[currentRoom]->items.end(); ++i) {
+                if (strcmp(i->name, itemName) == 0) {
+                    inventory.push_back(*i);
+                    rooms[currentRoom]->items.erase(i);
+                    cout << "You picked up " << itemName << ".\n";
+                    break;
+                }
+            }
+        }
+        else if (strcmp(command, "drop") == 0){
+            cout<<"what item to drop?"<<endl;
+            char itemName[30];
+            cin.getline(itemName,30);
+            for (auto i = inventory.begin(); i != inventory.end(); ++i) {
+                if (strcmp(i->name, itemName) == 0) {
+                    rooms[currentRoom]->items.push_back(*i);
+                    inventory.erase(i);
+                    cout << "You dropped " << itemName << ".\n";
+                    break;
+                }
             }
         }
         
