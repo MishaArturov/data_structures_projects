@@ -2,33 +2,8 @@
 #include <cstring>
 #include <vector>
 #include <map>
+#include "Room.h"
 using namespace std;
-struct Item { //item struct
-    char name[30]; //name of item
-    char description[200]; //description
-};
-class Room{
-public:
-    char name[30];
-    char description[200];
-    map<string, int> exits; //map for exits
-    vector<Item> items; //vector for items stored in the room
-    Room(const char* n, const char* d) {//initializes the room with a name and a description
-        strcpy(name, n);
-        strcpy(description, d);
-    }
-    void addExit(const char* direction, int roomIndex) {//adds an exit via direction that leads to a room index
-        exits[string(direction)] = roomIndex;
-    }
-
-    void addItem(const Item& item) {
-        items.push_back(item);
-    }
-    map<string,int>& getExits() { return exits; } //function to return the exits
-    vector<Item>& getItems() { return items; }//returns items
-    const char* getName() { return name; } //function to return name
-    const char* getDescription() { return description; } //function to return description
-};
 
 int main()
 {
@@ -67,42 +42,30 @@ int main()
     rooms.push_back(new Room("End","You escaped the spaceship on the pod"));
 
     rooms[0]->addExit("east", 1);
-
     rooms[1]->addExit("west", 0);
     rooms[1]->addExit("east", 7);
-    
     rooms[2]->addExit("east", 3);
-
     rooms[3]->addExit("west", 2);
     rooms[3]->addExit("south", 7);
-
     rooms[4]->addExit("north", 7);
     rooms[4]->addExit("south", 5);
-
     rooms[5]->addExit("north", 4);
     rooms[5]->addExit("south", 9);
     rooms[5]->addExit("west", 6);
     rooms[6]->addExit("east", 5);
-
     rooms[7]->addExit("west", 1);
     rooms[7]->addExit("north", 3);
     rooms[7]->addExit("south", 4);
     rooms[7]->addExit("east", 8);
-
     rooms[8]->addExit("west", 7);
     rooms[8]->addExit("east", 12);
-
     rooms[9]->addExit("north", 5);
     rooms[9]->addExit("south", 13);
-
     rooms[10]->addExit("south", 12);
-
     rooms[11]->addExit("north", 12);
-
     rooms[12]->addExit("north", 10);
     rooms[12]->addExit("south", 11);
     rooms[12]->addExit("west", 8);
-
     rooms[13]->addExit("north", 9);
     rooms[13]->addExit("east", 14);
 
@@ -123,6 +86,7 @@ int main()
 
     cout << "Welcome to The Spaceship, your job is to escape it!"<<endl;
     cout << "Commands: inventory, take, drop, quit.\nUse type one of the exit options to move"<<endl;
+
     while(!gameOver){
         cout<<"\nYou are in the "<< rooms[currentRoom]->getName()<<endl<<rooms[currentRoom]->getDescription()<<endl;//prints room name and description
         cout<<"Exits:"<<endl;
@@ -207,13 +171,11 @@ int main()
                 cout << "You can't go that way.\n";
             }
         }
-
-        
     }
+
     for (auto r : rooms) {//clears data
         delete r;
     }
     rooms.clear();
     return 0;
 }
-
