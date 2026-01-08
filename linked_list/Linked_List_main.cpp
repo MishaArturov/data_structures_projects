@@ -30,6 +30,10 @@ class Node{
             delete stu;
             next = nullptr;
         }
+        void setNext(Node* nextNode) {
+            next = nextNode;
+        }
+
 };
 int main()
 {
