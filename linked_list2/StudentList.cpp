@@ -48,8 +48,8 @@ void addStudentRecur(Node*& head, Student* s) {//recursive funciton
         head = newNode;
         return;
     }
-
-    addStudentRecur(head->getNext(), s);
+    Node* next = head->getNext();
+    addStudentRecur(next, s);
 }
 
 void addStudent(Node*& head){
@@ -71,13 +71,6 @@ void addStudent(Node*& head){
     addStudentRecur(head,stud);
 }
 
-
-void deleteStudent(Node*& head) {
-    int id;
-    cout << "enter id:" << endl;
-    cin >> id;
-    deleteStudentRecur(head, id);
-}
 void deleteStudentRecur(Node*& head, int id) {
     if (head == nullptr || head == NULL) {
         return;
@@ -90,8 +83,14 @@ void deleteStudentRecur(Node*& head, int id) {
         delete temp;
         return;
     }
-
-    deleteStudentRecur(head->getNext(), id);
+    Node* next = head->getNext();
+    deleteStudentRecur(next, id);
+}
+void deleteStudent(Node*& head) {
+    int id;
+    cout << "enter id:" << endl;
+    cin >> id;
+    deleteStudentRecur(head, id);
 }
 
 
