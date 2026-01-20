@@ -20,6 +20,16 @@ void printStudent(Node* head){
         current = current->getNext();
     }
 }
+void addStudentRecur(Node*& head, Student* s) {//recursive funciton
+    if (head == nullptr || s->getID() < head->getStudent()->getID()) {
+        Node* newNode = new Node(s);
+        newNode->setNext(head);
+        head = newNode;
+        return;
+    }
+
+    addStudentRecur(head->getNext(), s);
+}
 
 void addStudent(Node*& head){
     char first[20];
@@ -37,10 +47,7 @@ void addStudent(Node*& head){
     cin >> id;
 
     Student* stud = new Student(first, last, id, gpa);
-    Node* newNode = new Node(stud);
-
-    newNode->setNext(head);
-    head = newNode;
+    addStudentRecur(head,stud);
 }
 
 
