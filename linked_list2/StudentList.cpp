@@ -21,7 +21,7 @@ void printStudent(Node* head){
     }
 }
 void addStudentRecur(Node*& head, Student* s) {//recursive funciton
-    if (head == nullptr || s->getID() < head->getStudent()->getID()) {
+    if (head == nullptr||head == NULL || s->getID() < head->getStudent()->getID()) {
         Node* newNode = new Node(s);
         newNode->setNext(head);
         head = newNode;
@@ -51,18 +51,28 @@ void addStudent(Node*& head){
 }
 
 
-void deleteStudent(Node*& head){
+void deleteStudent(Node*& head) {
     int id;
-    cout<<"enter id:"<<endl;
-    cin>>id;
-    for(auto x = students.begin(); x != students.end(); ++x){//iterator to access each student
-        if(id==(*x)->id){
-            delete *x; //deletes the pointer
-            students.erase(x); //erases student from vector
-            break;
-        }
-    }
+    cout << "enter id:" << endl;
+    cin >> id;
+    deleteStudentRecur(head, id);
 }
+void deleteStudentRecur(Node*& head, int id) {
+    if (head == nullptr || head == NULL) {
+        return;
+    }
+
+    if (head->getStudent()->getID() == id) {
+        Node* temp = head;
+        head = head->getNext();
+        delete temp->getStudent();
+        delete temp;
+        return;
+    }
+
+    deleteStudentRecur(head->getNext(), id);
+}
+
 
 
 // void addStudent
