@@ -6,16 +6,21 @@
 
 
 using namespace std;
-struct Student{
-    int id;
-    float gpa;
-    char name[30];
-};
-void printStudent(Node*& head){
-    for(Student* x : students){//iterator to access each student 
-        cout<<"Name: "<<x->name<<", ID: "<<x->id<<", gpa: "<<fixed<<setprecision(2)<<x->gpa<<endl;
+void printStudent(Node* head){
+    Node* current = head;
+
+    while (current != nullptr && current != NULL) {
+        Student* s = current->getStudent();
+        cout << "Name: " << s->getFirstName() << " "
+             << s->getLastName()
+             << ", ID: " << s->getID()
+             << ", GPA: " << fixed << setprecision(2)
+             << s->getGPA() << endl;
+
+        current = current->getNext();
     }
 }
+
 void addStudent(Node*& head){
     Student* stud = new Student; //makes a new pointer
     cout<<"input name:"<<endl;
