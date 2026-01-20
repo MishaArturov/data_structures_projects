@@ -6,6 +6,27 @@
 
 
 using namespace std;
+
+float sumGPA(Node* head) {
+    if (head == nullptr||head == NULL) return 0;
+    return head->getStudent()->getGPA() + sumGPA(head->getNext());//recursively add the sum of all student gpas
+}
+
+int countStudents(Node* head) {
+    if (head == nullptr||head == NULL) return 0;
+    return 1 + countStudents(head->getNext());//recursively add the summ of all students
+}
+
+void printAverage(Node* head) {
+    if (head == nullptr||head == NULL) {
+        cout << "0.00" << endl;//print 0 if no head
+        return;
+    }
+
+    float avg = sumGPA(head) / countStudents(head);//avg is sum of gpas divided by # of students
+    cout << fixed << setprecision(2) << avg << endl;
+}
+
 void printStudent(Node* head){
     Node* current = head;
 
