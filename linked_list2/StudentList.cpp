@@ -22,16 +22,27 @@ void printStudent(Node* head){
 }
 
 void addStudent(Node*& head){
-    Student* stud = new Student; //makes a new pointer
-    cout<<"input name:"<<endl;
-    cin.ignore();//fix to skipping the name input
-    cin.getline(stud->name,30);
-    cout<<"input gpa:"<<endl;
-    cin>>stud->gpa;
-    cout<<"input id:"<<endl;
-    cin>>stud->id;
-    students.push_back(stud); //pushes the pointer into vector
+    char first[20];
+    char last[20];
+    int id;
+    float gpa;
+
+    cout << "input first name:" << endl;
+    cin >> first;
+    cout << "input last name:" << endl;
+    cin >> last;
+    cout << "input gpa:" << endl;
+    cin >> gpa;
+    cout << "input id:" << endl;
+    cin >> id;
+
+    Student* stud = new Student(first, last, id, gpa);
+    Node* newNode = new Node(stud);
+
+    newNode->setNext(head);
+    head = newNode;
 }
+
 
 void deleteStudent(Node*& head){
     int id;
