@@ -1,19 +1,22 @@
 #include <iostream>
 #include <cstring>
-#include <vector>
 #include <iomanip> //rounding gpa
+#include "Node.h"
+#include "Student.h"
+
+
 using namespace std;
 struct Student{
     int id;
     float gpa;
     char name[30];
 };
-void printStudent(vector<Student*> &students){
+void printStudent(Node*& head){
     for(Student* x : students){//iterator to access each student 
         cout<<"Name: "<<x->name<<", ID: "<<x->id<<", gpa: "<<fixed<<setprecision(2)<<x->gpa<<endl;
     }
 }
-void addStudent(vector<Student*> &students){
+void addStudent(Node*& head){
     Student* stud = new Student; //makes a new pointer
     cout<<"input name:"<<endl;
     cin.ignore();//fix to skipping the name input
@@ -24,7 +27,8 @@ void addStudent(vector<Student*> &students){
     cin>>stud->id;
     students.push_back(stud); //pushes the pointer into vector
 }
-void deleteStudent(vector<Student*> &students){
+
+void deleteStudent(Node*& head){
     int id;
     cout<<"enter id:"<<endl;
     cin>>id;
@@ -41,7 +45,7 @@ void deleteStudent(vector<Student*> &students){
 // void addStudent
 int main()
 {
-    vector<Student*> studentPtrs; //vector of struct pointers
+    Node* head = nullptr;
     while(true){
         cout<<"Use one of the commands (ADD,PRINT,DELETE,QUIT)"<<endl;
 
