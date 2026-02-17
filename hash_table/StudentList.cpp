@@ -1,120 +1,149 @@
 #include <iostream>
+#include <fstream>
 #include <cstring>
 #include <cstdlib>
 #include <ctime>
 #include "HashTable.h"
 #include "Student.h"
 
-
-
 using namespace std;
 
-Student* randomStudent() {
-    static const char* firstNames[] = {
-            "Alex", "Jamie", "Chris", "Taylor", "Jordan",
-            "Morgan", "Casey", "Riley", "Drew", "Avery"
-    };
+const int MAX_NAMES = 200;
 
-    static const char* lastNames[] = {
-            "Smith", "Johnson", "Brown", "Lee", "Garcia",
-            "Miller", "Davis", "Wilson", "Clark", "Hall"
-    };
+char firstNames[MAX_NAMES][20];
+char lastNames[MAX_NAMES][20];
+int firstNameCount = 0;
+int lastNameCount  = 0;
+
+int loadNames(const char* filename, char names[][20], int maxNames) {
+    ifstream file(filename);
+
+    if (!file.is_open()) {
+        cout << "Warning: could not open \"" << filename << "\".\n";
+        cout << "Random generation will not work without this file.\n";
+        return 0;
+    }
+
+    int count = 0;
+    char line[20];
+
+    while (count < maxNames && file >> line) {
+        strncpy(names[count], line, 19);
+        names[count][19] = '\0';
+        count++;
+    }
+
+    file.close();
+    return count;
+}
+
+Student* randomStudent() {
+    if (firstNameCount == 0 || lastNameCount == 0) {
+        cout << "Error: name files not loaded. Cannot generate student.\n";
+        return nullptr;
+    }
 
     static int nextID = 1000;
 
-    const char* first = firstNames[rand() % 10];
-    const char* last  = lastNames[rand() % 10];
+    char* first = firstNames[rand() % firstNameCount];
+    char* last  = lastNames[rand() % lastNameCount];
 
     float gpa = (rand() % 500) / 100.0f;
 
-    return new Student((char*)first, (char*)last, nextID++, gpa);
+    return new Student(first, last, nextID++, gpa);
 }
-
 
 Student* inputStudent() {
     char first[20];
     char last[20];
-    int id;
+    int   id;
     float gpa;
 
     cout << "First name: ";
-    cin >> first;
+    cin  >> first;
 
     cout << "Last name: ";
-    cin >> last;
+    cin  >> last;
 
     cout << "ID: ";
-    cin >> id;
+    cin  >> id;
 
     cout << "GPA: ";
-    cin >> gpa;
+    cin  >> gpa;
 
     return new Student(first, last, id, gpa);
 }
-
 
 int main() {
 
     srand(time(nullptr));
 
-    HashTable table;  // starts with 100 buckets
+    firstNameCount = loadNames("first_names.txt", firstNames, MAX_NAMES);
+    lastNameCount  = loadNames("last_names.txt",  lastNames,  MAX_NAMES);
+
+    cout << "Loaded " << firstNameCount << " first names and "
+         << lastNameCount << " last names.\n";
+
+    HashTable table;
 
     while (true) {
 
-        cout << "\nCommands: ADD PRINT DELETE GENERATE QUIT\n> ";
+        cout << "\nCommands: ADD  PRINT  DELETE  GENERATE  QUIT\n> ";
 
         char cmd[20];
-        cin >> cmd;
+        cin  >> cmd;
 
-        for (int i = 0; i < strlen(cmd); i++)
+        for (int i = 0; i < (int)strlen(cmd); i++)
             cmd[i] = toupper(cmd[i]);
 
-        // ---- ADD ----
         if (strcmp(cmd, "ADD") == 0) {
 
             Student* s = inputStudent();
             table.add(s);
+            cout << "Student added.\n";
         }
 
-            // ---- PRINT ----
         else if (strcmp(cmd, "PRINT") == 0) {
 
             table.print();
         }
 
-            // ---- DELETE ----
         else if (strcmp(cmd, "DELETE") == 0) {
 
             int id;
             cout << "Enter ID to delete: ";
-            cin >> id;
+            cin  >> id;
 
             table.remove(id);
         }
 
-            // ---- GENERATE ----
         else if (strcmp(cmd, "GENERATE") == 0) {
 
             int count;
             cout << "How many students? ";
-            cin >> count;
+            cin  >> count;
 
+            int added = 0;
             for (int i = 0; i < count; i++) {
-                table.add(randomStudent());
+                Student* s = randomStudent();
+                if (s != nullptr) {
+                    table.add(s);
+                    added++;
+                }
             }
+            cout << added << " student(s) generated and added.\n";
         }
 
-            // ---- QUIT ----
         else if (strcmp(cmd, "QUIT") == 0) {
 
+            cout << "Goodbye!\n";
             break;
         }
 
         else {
-            cout << "Unknown command.\n";
+            cout << "Unknown command. Try: ADD  PRINT  DELETE  GENERATE  QUIT\n";
         }
     }
 
     return 0;
 }
-
