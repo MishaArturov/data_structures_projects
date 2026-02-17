@@ -96,3 +96,26 @@ void HashTable::remove(int id) {
 
     cout << "Student not found.\n";
 }
+void HashTable::print() {
+
+    for (int i = 0; i < size; i++) {
+
+        Node* current = table[i];
+
+        while (current != nullptr) {
+
+            Student* s = current->getStudent();
+
+            cout << "Name: "
+                 << s->getFirstName() << " "
+                 << s->getLastName()
+                 << " | ID: " << s->getID()
+                 << " | GPA: "
+                 << fixed << setprecision(2)
+                 << s->getGPA()
+                 << endl;
+
+            current = current->getNext();
+        }
+    }
+}
