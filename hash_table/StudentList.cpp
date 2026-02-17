@@ -1,13 +1,56 @@
 #include <iostream>
 #include <cstring>
-#include <iomanip> //rounding gpa
-#include "Node.h"
+#include <cstdlib>
+#include <ctime>
+#include "HashTable.h"
 #include "Student.h"
+
 
 
 using namespace std;
 
+Student* randomStudent() {
+    static const char* firstNames[] = {
+            "Alex", "Jamie", "Chris", "Taylor", "Jordan",
+            "Morgan", "Casey", "Riley", "Drew", "Avery"
+    };
 
+    static const char* lastNames[] = {
+            "Smith", "Johnson", "Brown", "Lee", "Garcia",
+            "Miller", "Davis", "Wilson", "Clark", "Hall"
+    };
+
+    static int nextID = 1000;
+
+    const char* first = firstNames[rand() % 10];
+    const char* last  = lastNames[rand() % 10];
+
+    float gpa = (rand() % 500) / 100.0f;
+
+    return new Student((char*)first, (char*)last, nextID++, gpa);
+}
+
+
+Student* inputStudent() {
+    char first[20];
+    char last[20];
+    int id;
+    float gpa;
+
+    cout << "First name: ";
+    cin >> first;
+
+    cout << "Last name: ";
+    cin >> last;
+
+    cout << "ID: ";
+    cin >> id;
+
+    cout << "GPA: ";
+    cin >> gpa;
+
+    return new Student(first, last, id, gpa);
+}
 
 
 int main() {
