@@ -54,41 +54,65 @@ Student* inputStudent() {
 
 
 int main() {
-    Node* head = nullptr;
+
+    srand(time(nullptr));
+
+    HashTable table;  // starts with 100 buckets
 
     while (true) {
-        cout << "Use one of the commands (ADD, PRINT, DELETE, AVERAGE, QUIT)" << endl;
 
-        char arr[10];
-        cin >> arr;
+        cout << "\nCommands: ADD PRINT DELETE GENERATE QUIT\n> ";
 
-        for (int x = 0; x < strlen(arr); x++) {//makes command uppercase
-            arr[x] = toupper(arr[x]);
+        char cmd[20];
+        cin >> cmd;
+
+        for (int i = 0; i < strlen(cmd); i++)
+            cmd[i] = toupper(cmd[i]);
+
+        // ---- ADD ----
+        if (strcmp(cmd, "ADD") == 0) {
+
+            Student* s = inputStudent();
+            table.add(s);
         }
 
-        if (strcmp(arr, "ADD") == 0) {
-            addStudent(head);
+            // ---- PRINT ----
+        else if (strcmp(cmd, "PRINT") == 0) {
+
+            table.print();
         }
-        else if (strcmp(arr, "DELETE") == 0) {
-            deleteStudent(head);
+
+            // ---- DELETE ----
+        else if (strcmp(cmd, "DELETE") == 0) {
+
+            int id;
+            cout << "Enter ID to delete: ";
+            cin >> id;
+
+            table.remove(id);
         }
-        else if (strcmp(arr, "PRINT") == 0) {
-            printStudent(head);
+
+            // ---- GENERATE ----
+        else if (strcmp(cmd, "GENERATE") == 0) {
+
+            int count;
+            cout << "How many students? ";
+            cin >> count;
+
+            for (int i = 0; i < count; i++) {
+                table.add(randomStudent());
+            }
         }
-        else if (strcmp(arr, "AVERAGE") == 0) {
-            printAverage(head);
-        }
-        else if (strcmp(arr, "QUIT") == 0) {
+
+            // ---- QUIT ----
+        else if (strcmp(cmd, "QUIT") == 0) {
+
             break;
         }
-    }
 
-    // frees data before exit
-    while (head != nullptr) {
-        Node* temp = head;
-        head = head->getNext();
-        delete temp->getStudent();
-        delete temp;
+        else {
+            cout << "Unknown command.\n";
+        }
     }
 
     return 0;
