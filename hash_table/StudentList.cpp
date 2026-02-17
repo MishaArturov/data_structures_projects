@@ -27,7 +27,7 @@ int loadNames(const char* filename, char names[][20], int maxNames) {
     int count = 0;
     char line[20];
 
-    while (count < maxNames && file >> line) {
+    while (count < maxNames && file >> line) {//copies names line by line
         strncpy(names[count], line, 19);
         names[count][19] = '\0';
         count++;
@@ -45,12 +45,12 @@ Student* randomStudent() {
 
     static int nextID = 1000;
 
-    char* first = firstNames[rand() % firstNameCount];
+    char* first = firstNames[rand() % firstNameCount];//random name picked
     char* last  = lastNames[rand() % lastNameCount];
 
     float gpa = (rand() % 500) / 100.0f;
 
-    return new Student(first, last, nextID++, gpa);
+    return new Student(first, last, nextID++, gpa);//makes student with name
 }
 
 Student* inputStudent() {
@@ -124,7 +124,7 @@ int main() {
             cin  >> count;
 
             int added = 0;
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < count; i++) {//generates students per # count
                 Student* s = randomStudent();
                 if (s != nullptr) {
                     table.add(s);
