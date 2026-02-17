@@ -34,3 +34,65 @@ HashTable::~HashTable() {
 
     delete[] table;
 }
+
+int HashTable::hash(int id) {
+    return id % size;
+}
+
+
+void HashTable::add(Student* s) {
+
+    int index = hash(s->getID());
+
+    Node* newNode = new Node(s);
+
+    // insert at front
+    newNode->setNext(table[index]);
+    table[index] = newNode;
+
+    // check chain length
+    int count = 0;
+    Node* current = table[index];
+
+    while (current != nullptr) {
+        count++;
+        current = current->getNext();
+    }
+
+    if (count > 3) {
+        rehash();
+    }
+}
+
+
+void HashTable::remove(int id) {
+
+    int index = hash(id);
+
+    Node* current = table[index];
+    Node* prev = nullptr;
+
+    while (current != nullptr) {
+
+        if (current->getStudent()->getID() == id) {
+
+            if (prev == nullptr) {
+                table[index] = current->getNext();
+            }
+            else {
+                prev->setNext(current->getNext());
+            }
+
+            delete current->getStudent();
+            delete current;
+
+            cout << "Student removed.\n";
+            return;
+        }
+
+        prev = current;
+        current = current->getNext();
+    }
+
+    cout << "Student not found.\n";
+}
