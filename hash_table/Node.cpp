@@ -6,7 +6,7 @@ Node::Node(Student* nStudent) {
 }
 
 Node::~Node() {
-  delete student;
+  // Student is owned and deleted by HashTable, not here
   next = NULL;
 }
 
