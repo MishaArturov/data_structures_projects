@@ -119,3 +119,39 @@ void HashTable::print() {
         }
     }
 }
+void HashTable::rehash() {
+
+    int oldSize = size;
+    size *= 2;
+
+    Node** oldTable = table;
+    table = new Node*[size];
+
+    for (int i = 0; i < size; i++) {
+        table[i] = nullptr;
+    }
+
+    // reinsert all students
+    for (int i = 0; i < oldSize; i++) {
+
+        Node* current = oldTable[i];
+
+        while (current != nullptr) {
+
+            Student* s = current->getStudent();
+
+            int newIndex = hash(s->getID());
+
+            Node* newNode = new Node(s);
+            newNode->setNext(table[newIndex]);
+            table[newIndex] = newNode;
+
+            Node* temp = current;
+            current = current->getNext();
+
+            delete temp;
+        }
+    }
+
+    delete[] oldTable;
+}
