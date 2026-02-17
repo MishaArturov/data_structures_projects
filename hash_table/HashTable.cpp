@@ -7,8 +7,8 @@
 using namespace std;
 
 
-HashTable::HashTable() {
-    size = 100;
+HashTable::HashTable(int size) {
+    this->size = size;
     table = new Node*[size];
 
     for (int i = 0; i < size; i++) {
