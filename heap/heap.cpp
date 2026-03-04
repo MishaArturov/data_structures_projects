@@ -143,6 +143,18 @@ int main() {
             }
         }
 
+        else if (strcmp(choice, "FILE") == 0) {
+            ifstream file("numbers.txt");
+            int number;
+            while (file >> number) {//reads through numbers
+                if (number >= 1 && number <= 1000) {
+                    heap.insert(number);
+                }
+            }
+            file.close();
+            cout << "Numbers loaded.\n";
+        }
+
         else if (strcmp(choice, "REMOVE") == 0) {
             heap.remove();
         }
