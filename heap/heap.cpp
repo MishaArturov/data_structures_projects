@@ -87,5 +87,32 @@ public:
             remove();
         }
     }
+    // prints the entire heap as a sideways tree
+    void printTree() {
+        // start displaying from the root at index 1 with depth 0
+        display(1, 0);
+    }
+
+// recursive function to display the heap
+    void display(int index, int depth) {
+        // if index is outside current heap size, stop
+        if (index > size)
+            return;
+
+        // first display the right child
+        // this makes the tree appear sideways
+        display(index * 2 + 1, depth + 1);
+
+        // deeper levels are indented further
+        for (int i = 0; i < depth; i++) {
+            cout << "\t";
+        }
+
+        // print the current node value
+        cout << heap[index] << endl;
+
+        // then display the left child
+        display(index * 2, depth + 1);
+    }
 };
 
