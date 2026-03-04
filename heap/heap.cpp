@@ -115,4 +115,55 @@ public:
         display(index * 2, depth + 1);
     }
 };
+int main() {
+    MaxHeap heap;
+    char choice[20];
+
+    while (true) {
+        cout << "\nChoose option:\n";
+        cout << "ADD (manual input)\n";
+        cout << "FILE (input from file)\n";
+        cout << "REMOVE (remove largest)\n";
+        cout << "REMOVEALL (remove everything)\n";
+        cout << "PRINT (display heap)\n";
+        cout << "QUIT\n";
+        cout << "Choice: ";
+
+        cin >> choice;
+
+        if (strcmp(choice, "ADD") == 0) {
+            int number;
+            cout << "Enter number (1–1000): ";
+            cin >> number;
+
+            if (number >= 1 && number <= 1000) {
+                heap.insert(number);
+            } else {
+                cout << "Invalid number.\n";
+            }
+        }
+
+        else if (strcmp(choice, "REMOVE") == 0) {
+            heap.remove();
+        }
+
+        else if (strcmp(choice, "REMOVEALL") == 0) {
+            heap.removeAll();
+        }
+
+        else if (strcmp(choice, "PRINT") == 0) {
+            heap.printTree();
+        }
+
+        else if (strcmp(choice, "QUIT") == 0) {
+            break;
+        }
+
+        else {
+            cout << "Invalid command.\n";
+        }
+    }
+
+    return 0;
+}
 
