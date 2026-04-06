@@ -14,6 +14,21 @@ Node* makeNode(int val) {
     n->right = nullptr;
     return n;
 }
+Node* insert(Node* root, int val) {//simple recursive function to insert
+    if (root == nullptr) return makeNode(val);   // empty spot found
+    if (val < root->data) {
+        root->left  = insert(root->left,  val);
+    }
+    else if (val > root->data)
+        root->right = insert(root->right, val);
+    return root;
+}
+Node* search(Node* root, int val) {
+    if (root == nullptr)      return nullptr;   // not in tree
+    if (val == root->data)    return root;      // found it
+    if (val < root->data)     return search(root->left,  val);
+    return search(root->right, val);
+}
 int main(){
 
 }
