@@ -86,6 +86,12 @@ Node* removeNode(Node* root, int val) {
     }
     return root;
 }
+void deleteTree(Node* root) {
+    if (root == nullptr) return;
+    deleteTree(root->left);
+    deleteTree(root->right);
+    delete root;
+}
 
 int main(){
 
