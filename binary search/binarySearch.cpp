@@ -92,7 +92,112 @@ void deleteTree(Node* root) {
     deleteTree(root->right);
     delete root;
 }
+Node* insertFromLine(Node* root, const char* line) {
+    int i   = 0;
+    int len = strlen(line);
+
+    while (i < len) {
+        // Skip spaces
+        while (i < len && line[i] == ' ') i++;
+        if (i >= len) break;
+
+        // Read consecutive digit characters
+        char buf[8];
+        int  b = 0;
+        while (i < len && line[i] >= '0' && line[i] <= '9' && b < 8 - 1)
+            buf[b++] = line[i++];
+
+        if (b == 0) { i++; continue; }
+        buf[b] = '\0';
+
+        // Convert C-string digits to integer
+        int val = 0;
+        for (int k = 0; k < b; k++) val = val * 10 + (buf[k] - '0');
+
+        if (val >= 1 && val <= 999)
+            root = insert(root, val);
+        else
+            cout << "Skipped " << val << " (must be 1-999)\n";
+    }
+    return root;
+}
+int parseIntFrom(const char* line, int start) {
+    int len = strlen(line);
+    while (start < len && line[start] == ' ') start++;  // skip leading spaces
+    if (start >= len) return -1;//if nothing
+
+    int val = 0;
+    bool found = false;
+    while (start < len && line[start] >= '0' && line[start] <= '9') {
+        val   = val * 10 + (line[start] - '0');//converting char to int
+        start++;
+        found = true;
+    }
+    return found ? val : -1;
+}
 
 int main(){
+    char line[512];
+    while (true) {
+        cout << "> ";
+        cin.getline(line, sizeof(line));
 
+        if (line[0] == '\0') continue;   // blank line — ignore
+        char cmd = line[0];
+
+        // add
+        if (cmd == 'a' || cmd == 'A') {
+            int val = parseIntFrom(line, 2);
+            if (val < 1 || val > 999) {
+                cout << "Please enter a number between 1 and 999.\n";
+                continue;
+            }
+            if (search(root, val) != nullptr) {
+                cout << val << " is already in the tree.\n";
+                continue;
+            }
+            root = insert(root, val);
+            cout << "Inserted " << val << ".\n";
+            printTreeFull(root);
+
+
+            // remove
+        } else if (cmd == 'r' || cmd == 'R') {
+            int val = parseIntFrom(line, 2);
+            if (val < 1 || val > 999) {
+                cout << "Please enter a number between 1 and 999.\n";
+                continue;
+            }
+            if (search(root, val) == nullptr) {
+                cout << val << " is not in the tree.\n";
+                continue;
+            }
+            root = removeNode(root, val);
+            cout << "Removed " << val << ".\n";
+            printTreeFull(root);
+
+            //search
+        } else if (cmd == 's' || cmd == 'S') {
+            int val = parseIntFrom(line, 2);
+            if (val < 1 || val > 999) {
+                cout << "Please enter a number between 1 and 999.\n";
+                continue;
+            }
+            if (search(root, val) != nullptr)
+                cout << val << " IS in the tree.\n";
+            else
+                cout << val << " is NOT in the tree.\n";
+
+            // --- QUIT ----------------------------------------------
+        } else if (cmd == 'q' || cmd == 'Q') {
+            cout << "Goodbye!\n";
+            break;
+
+        } else {
+            cout << "Unknown command. Use a <num>, r <num>, s <num>, or q.\n";
+        }
+    }
+
+    deleteTree(root);
+    return 0;
 }
