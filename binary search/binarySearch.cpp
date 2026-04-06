@@ -139,6 +139,16 @@ int parseIntFrom(const char* line, int start) {
 int main(){
     Node* root = nullptr;
     char line[512];
+    ifstream fin("nums.txt");
+    if (!fin) {
+        cout << "Could not open nums.txt. Starting with an empty tree.\n";
+    } else {
+        char fileLine[512];
+        while (fin.getline(fileLine, sizeof(fileLine)))
+            if (fileLine[0] != '\0')
+                root = insertFromLine(root, fileLine);
+        fin.close();
+    }
     while (true) {
         cout << "use chars: a, r, s, and q to add remove search and quit. after the letter write your number to add remove or search like this "<<endl<<"'a 5'"<<endl;
         cin.getline(line, sizeof(line));
