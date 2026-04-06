@@ -137,6 +137,7 @@ int parseIntFrom(const char* line, int start) {
 }
 
 int main(){
+    Node* root = nullptr;
     char line[512];
     while (true) {
         cout << "use chars: a, r, s, and q to add remove search and quit. after the letter write your number to add remove or search like this "<<endl<<"'a 5'"<<endl;
