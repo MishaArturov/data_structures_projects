@@ -149,6 +149,7 @@ int main(){
                 root = insertFromLine(root, fileLine);
         fin.close();
     }
+    printTreeFull(root);
     while (true) {
         cout << "use chars: a, r, s, and q to add remove search and quit. after the letter write your number to add remove or search like this "<<endl<<"'a 5'"<<endl;
         cin.getline(line, sizeof(line));
