@@ -139,7 +139,7 @@ int parseIntFrom(const char* line, int start) {
 int main(){
     char line[512];
     while (true) {
-        cout << "> ";
+        cout << "use chars: a, r, s, and q to add remove search and quit. after the letter write your number to add remove or search like this "<<endl<<"'a 5'"<<endl;
         cin.getline(line, sizeof(line));
 
         if (line[0] == '\0') continue;   // blank line — ignore
@@ -188,7 +188,7 @@ int main(){
             else
                 cout << val << " is NOT in the tree.\n";
 
-            // --- QUIT ----------------------------------------------
+            // quit
         } else if (cmd == 'q' || cmd == 'Q') {
             cout << "Goodbye!\n";
             break;
