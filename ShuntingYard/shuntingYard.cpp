@@ -110,4 +110,42 @@ int main() {
     Node *operatorStack = nullptr;
     Node *postfixHead = nullptr;
     Node *postfixTail = nullptr;
+    char* token = strtok(input, " ");//splits the input into tokens
+    while (token != nullptr) {
+        if (isdigit(token[0])) {//if token is number add to postfix queue
+            enqueue(&postfixHead, &postfixTail, new Node(token));
+        } else if (token[0] == '(') {//if token is opening bracket add to operator stack
+            push(&operatorStack, new Node(token));
+        } else if (token[0] == ')') {
+            while (peek(operatorStack) && peek(operatorStack)->data[0] != '(') {
+                // pop operators from the stack and add them to the output queue until we find the matching opening parenthesis '('
+                enqueue(&postfixHead, &postfixTail, pop(&operatorStack));
+            }
+            Node* leftParen = pop(&operatorStack); // removes the '(' from the stack but dont add it to output
+            if (leftParen) delete leftParen;
+        } else {
+            // Operator
+            // While theres an operator on the stack that isnt '('
+            while (peek(operatorStack) && peek(operatorStack)->data[0] != '(') {
+                char topOp = peek(operatorStack)->data[0];
+                int p1 = getPrecedence(token[0]);  // Precedence of current token
+                int p2 = getPrecedence(topOp);     // Precedence of operator on stack
+
+                /*
+                   Check Order of Operations:
+                   Pop the stack to output if:
+                   - The operator on the stack has higher precedence (e.g., * before +)
+                   - They have equal precedence AND the current operator is left-associative
+                */
+                if (p2 > p1 || (p2 == p1 && !isRightAssociative(token[0]))) {
+                    enqueue(&postfixHead, &postfixTail, pop(&operatorStack));
+                } else {
+                    // Current operator has higher precedence; stop popping
+                    break;
+                }
+            }
+            push(&operatorStack, new Node(token));//push the current operator onto the operator stack
+        }
+        token = strtok(nullptr, " ");
+    }
 }
