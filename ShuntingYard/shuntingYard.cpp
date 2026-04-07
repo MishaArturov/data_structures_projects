@@ -179,4 +179,35 @@ int main() {
 
     cout << "\nExpression Tree built." << endl;
     printTree(root, 0);
+
+    int choice = 0;
+    while (choice != 4) {
+        cout << "\nChoose output format for the Expression Tree:" << endl;
+        cout << "1. Infix" << endl;
+        cout << "2. Prefix" << endl;
+        cout << "3. Postfix" << endl;
+        cout << "4. Quit" << endl;
+        cout << "Choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            cout << "Infix: ";
+            printInfix(root);
+            cout << endl;
+        } else if (choice == 2) {
+            cout << "Prefix: ";
+            printPrefix(root);
+            cout << endl;
+        } else if (choice == 3) {
+            cout << "Postfix: ";
+            printPostfix(root);
+            cout << endl;
+        } else if (choice == 4) {
+            cout << "Exiting..." << endl;
+        } else {
+            cout << "Invalid choice." << endl;
+        }
+    }
+
+    return 0;
 }
