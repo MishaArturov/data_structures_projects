@@ -66,3 +66,29 @@ int getPrecedence(char op) {
 bool isRightAssociative(char op) {
     return op == '^';
 }
+//recursive printing functions for infix, prefix, and postfix
+void printInfix(Node* root) {
+    if (root) {//only checks continues the loop if there is a root
+        if (root->left) cout << "( ";//goes left and prints an opening bracket
+        printInfix(root->left);
+        cout << root->data << " ";//once finished left prints the root and then goes right
+        printInfix(root->right);
+        if (root->right) cout << ") ";
+    }
+}
+
+void printPrefix(Node* root) {
+    if (root) {
+        cout << root->data << " ";//goes fully left while printing and then back tracks right
+        printPrefix(root->left);
+        printPrefix(root->right);
+    }
+}
+
+void printPostfix(Node* root) {
+    if (root) {//prints the most deep left first and then back tracks right to print
+        printPostfix(root->left);
+        printPostfix(root->right);
+        cout << root->data << " ";
+    }
+}
