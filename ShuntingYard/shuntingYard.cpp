@@ -56,3 +56,13 @@ Node* dequeue(Node** head, Node** tail) {
     temp->next = nullptr;
     return temp;
 }
+int getPrecedence(char op) {
+    if (op == '^') return 3;//ranks the operators
+    if (op == '*' || op == '/') return 2;
+    if (op == '+' || op == '-') return 1;
+    return 0;
+}
+
+bool isRightAssociative(char op) {
+    return op == '^';
+}
