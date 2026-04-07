@@ -92,3 +92,13 @@ void printPostfix(Node* root) {
         cout << root->data << " ";
     }
 }
+
+void printTree(Node* root, int space) {//goes prints the rightmost with biggest space spacing and then goes down
+    if (root == nullptr) return;//reached end of recursion
+    space += 7;
+    printTree(root->right, space);//goes right first
+    cout << endl;//shifts down
+    for (int i = 7; i < space; i++) cout << " ";//prints the spacing
+    cout << root->data << "\n";//prints the root
+    printTree(root->left, space);
+}
