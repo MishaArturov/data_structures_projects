@@ -148,4 +148,35 @@ int main() {
         }
         token = strtok(nullptr, " ");
     }
+    // pops remaining operators
+    while (peek(operatorStack)) {
+        enqueue(&postfixHead, &postfixTail, pop(&operatorStack));
+    }
+
+    // output postfix from Shunting Yard
+    cout << "\nPostfix notation (from Shunting Yard): ";
+    Node* curr = postfixHead;
+    while (curr) {
+        cout << curr->data << " ";
+        curr = curr->next;
+    }
+    cout << endl;
+
+    // builds the expression tree from postfix queue
+    Node* treeStack = nullptr;
+    while (postfixHead) {
+        Node* n = dequeue(&postfixHead, &postfixTail);
+        if (isdigit(n->data[0])) {//number
+            push(&treeStack, n);
+        } else {//oparator
+            // pop two operands and make them children
+            n->right = pop(&treeStack);
+            n->left = pop(&treeStack);
+            push(&treeStack, n);
+        }
+    }
+    Node* root = pop(&treeStack);
+
+    cout << "\nExpression Tree built." << endl;
+    printTree(root, 0);
 }
