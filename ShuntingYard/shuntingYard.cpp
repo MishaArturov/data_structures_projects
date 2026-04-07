@@ -102,3 +102,12 @@ void printTree(Node* root, int space) {//goes prints the rightmost with biggest 
     cout << root->data << "\n";//prints the root
     printTree(root->left, space);
 }
+int main() {
+    char input[200];
+    cout << "Enter a mathematical expression with spaces between tokens (e.g., ( 3 + 4 ) * 2 ^ 3):" << endl;
+    cin.getline(input, 200);
+
+    Node *operatorStack = nullptr;
+    Node *postfixHead = nullptr;
+    Node *postfixTail = nullptr;
+}
