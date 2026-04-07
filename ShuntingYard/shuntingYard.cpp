@@ -35,3 +35,24 @@ Node* pop(Node** top) {
 Node* peek(Node* top) {//just returns top
     return top;
 }
+
+void enqueue(Node** head, Node** tail, Node* newNode) {
+    newNode->next = nullptr;
+    if (*tail == nullptr) {
+        *head = *tail = newNode;
+    } else {
+        (*tail)->next = newNode;//puts the new in the tail
+        *tail = newNode;//sets tail as end
+    }
+}
+
+Node* dequeue(Node** head, Node** tail) {
+    if (*head == nullptr) return nullptr;
+    Node* temp = *head;//copies head to print
+    *head = (*head)->next;//moves head by one
+    if (*head == nullptr) {
+        *tail = nullptr;
+    }
+    temp->next = nullptr;
+    return temp;
+}
