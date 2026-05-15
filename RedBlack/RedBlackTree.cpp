@@ -28,6 +28,74 @@ struct Node {
 class RedBlackTree {
 private:
     Node* root;
+// rotates subtree left
+    void rotateLeft(Node*& node) {
+
+        Node* rightChild = node->right;
+
+        // move right child's left subtree
+        node->right = rightChild->left;
+
+        // update parent pointer if subtree exists
+        if (rightChild->left != nullptr) {
+            rightChild->left->parent = node;
+        }
+
+        // connect right child to node's parent
+        rightChild->parent = node->parent;
+
+        // if node was root
+        if (node->parent == nullptr) {
+            root = rightChild;
+        }
+
+            // if node was left
+        else if (node == node->parent->left) {
+            node->parent->left = rightChild;
+        }
+
+            // if node was right
+        else {
+            node->parent->right = rightChild;
+        }
+
+        // put original node on left side
+        rightChild->left = node;
+
+        // update parent pointer
+        node->parent = rightChild;
+    }
+
+
+// like rotate left but the other way
+    void rotateRight(Node*& node) {
+
+        Node* leftChild = node->left;
+
+        node->left = leftChild->right;
+
+        if (leftChild->right != nullptr) {
+            leftChild->right->parent = node;
+        }
+
+        leftChild->parent = node->parent;
+
+        if (node->parent == nullptr) {
+            root = leftChild;
+        }
+
+        else if (node == node->parent->right) {
+            node->parent->right = leftChild;
+        }
+
+        else {
+            node->parent->left = leftChild;
+        }
+
+        leftChild->right = node;
+
+        node->parent = leftChild;
+    }
 
 
 public:
