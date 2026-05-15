@@ -131,6 +131,91 @@ private:
         printTree(node->left, space);
     }
 
+    // fixes the tree after insertion
+    void fixInsert(Node*& node) {
+
+        while (node != root &&
+               node->parent != nullptr &&
+               node->parent->isRed) {
+
+            Node* parent = node->parent;
+            Node* grandparent = parent->parent;
+
+            // Parent is left child
+            if (parent == grandparent->left) {
+
+                Node* uncle = grandparent->right;
+
+                // CASE 1: Uncle is red
+                if (uncle != nullptr && uncle->isRed) {
+
+                    parent->isRed = false;
+                    uncle->isRed = false;
+                    grandparent->isRed = true;
+
+                    node = grandparent;
+                }
+
+                else {
+
+                    // CASE 2: Triangle
+                    if (node == parent->right) {
+                        rotateLeft(parent);
+                        node = parent;
+                        parent = node->parent;
+                    }
+
+                    // CASE 3: Line
+                    rotateRight(grandparent);
+
+                    bool temp = parent->isRed;
+                    parent->isRed = grandparent->isRed;
+                    grandparent->isRed = temp;
+
+                    node = parent;
+                }
+            }
+
+                // Parent is right child
+            else {
+
+                Node* uncle = grandparent->left;
+
+                // CASE 1: Uncle is red
+                if (uncle != nullptr && uncle->isRed) {
+
+                    parent->isRed = false;
+                    uncle->isRed = false;
+                    grandparent->isRed = true;
+
+                    node = grandparent;
+                }
+
+                else {
+
+                    // CASE 2: Triangle
+                    if (node == parent->left) {
+                        rotateRight(parent);
+                        node = parent;
+                        parent = node->parent;
+                    }
+
+                    // CASE 3: Line
+                    rotateLeft(grandparent);
+
+                    bool temp = parent->isRed;
+                    parent->isRed = grandparent->isRed;
+                    grandparent->isRed = temp;
+
+                    node = parent;
+                }
+            }
+        }
+
+        // Root must always be black
+        root->isRed = false;
+    }
+
 
 public:
 
@@ -183,7 +268,7 @@ public:
         if (node->parent->parent == nullptr) {
             return;
         }
-
+        fixInsert(node);
 
     }
 
