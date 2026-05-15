@@ -300,3 +300,63 @@ public:
         cout << "Numbers added from file." << endl;
     }
 };
+
+int main() {
+
+    RedBlackTree tree;
+
+    int choice;
+
+    while (true) {
+
+        cout << endl;
+        cout << "1. Add Number" << endl;
+        cout << "2. Read File" << endl;
+        cout << "3. Print Tree" << endl;
+        cout << "4. Quit" << endl;
+        cout << "Choice: ";
+
+        cin >> choice;
+
+        // ADD SINGLE NUMBER
+        if (choice == 1) {
+
+            int num;
+
+            cout << "Enter number (1-999): ";
+            cin >> num;
+
+            if (num < 1 || num > 999) {
+                cout << "Invalid number." << endl;
+            }
+
+            else {
+                tree.insert(num);
+            }
+        }
+
+            // READ FILE
+        else if (choice == 2) {
+            char filename[100];
+            cout << "Enter filename: ";
+            cin >> filename;
+            tree.readFile(filename);
+        }
+
+            // PRINT TREE
+        else if (choice == 3) {
+            tree.print();
+        }
+
+            // QUIT
+        else if (choice == 4) {
+            break;
+        }
+
+        else {
+            cout << "Invalid choice." << endl;
+        }
+    }
+
+    return 0;
+}
