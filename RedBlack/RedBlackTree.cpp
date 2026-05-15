@@ -96,6 +96,40 @@ private:
 
         node->parent = leftChild;
     }
+    // PRINT TREE SIDEWAYS
+    void printTree(Node* node, int space) {
+
+        if (node == nullptr) {
+            return;
+        }
+
+        space += 8;
+
+        printTree(node->right, space);
+
+        cout << endl;
+
+        for (int i = 8; i < space; i++) {
+            cout << " ";
+        }
+
+        cout << node->data
+             << "("
+             << (node->isRed ? "R" : "B")
+             << ")";
+
+        if (node->parent != nullptr) {
+            cout << " P:" << node->parent->data;
+        }
+
+        else {
+            cout << " P:NULL";
+        }
+
+        cout << endl;
+
+        printTree(node->left, space);
+    }
 
 
 public:
