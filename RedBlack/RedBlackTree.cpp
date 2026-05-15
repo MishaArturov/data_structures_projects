@@ -137,5 +137,54 @@ public:
     RedBlackTree() {
         root = nullptr;
     }
+    void insert(int value) {
+
+        Node* node = new Node(value);
+
+        Node* parent = nullptr;
+        Node* current = root;
+
+        // Standard BST insertion
+        while (current != nullptr) {
+
+            parent = current;
+
+            if (value < current->data) {
+                current = current->left;
+            }
+
+            else {
+                current = current->right;
+            }
+        }
+
+        node->parent = parent;
+
+        // Insert as root
+        if (parent == nullptr) {
+            root = node;
+        }
+
+        else if (value < parent->data) {
+            parent->left = node;
+        }
+
+        else {
+            parent->right = node;
+        }
+
+        // Root is black
+        if (node->parent == nullptr) {
+            node->isRed = false;
+            return;
+        }
+
+        // No grandparent
+        if (node->parent->parent == nullptr) {
+            return;
+        }
+
+
+    }
 
 };
