@@ -25,3 +25,15 @@ struct Node {
         parent = nullptr;
     }
 };
+class RedBlackTree {
+private:
+    Node* root;
+
+
+public:
+
+    RedBlackTree() {
+        root = nullptr;
+    }
+
+};
