@@ -271,5 +271,32 @@ public:
         fixInsert(node);
 
     }
+    void print() {
 
+        if (root == nullptr) {
+            cout << "Tree is empty." << endl;
+            return;
+        }
+
+        printTree(root, 0);
+    }
+    void readFile(const char* filename) {
+
+        ifstream file(filename);
+
+        if (!file.is_open()) {
+            cout << "Could not open file." << endl;
+            return;
+        }
+
+        int num;
+
+        while (file >> num) {
+            insert(num);
+        }
+
+        file.close();
+
+        cout << "Numbers added from file." << endl;
+    }
 };
