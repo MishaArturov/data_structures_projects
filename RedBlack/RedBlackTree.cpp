@@ -47,6 +47,196 @@ private:
 
         return nullptr;
     }
+
+    Node* minimum(Node* node) {
+        while (node != nullptr && node->left != nullptr) {
+            node = node->left;
+        }
+
+        return node;
+    }
+
+    void transplant(Node* oldNode, Node* newNode) {
+        if (oldNode->parent == nullptr) {
+            root = newNode;
+        }
+
+        else if (oldNode == oldNode->parent->left) {
+            oldNode->parent->left = newNode;
+        }
+
+        else {
+            oldNode->parent->right = newNode;
+        }
+
+        if (newNode != nullptr) {
+            newNode->parent = oldNode->parent;
+        }
+    }
+
+    void fixRemove(Node* node, Node* parent) {
+        // keep fixing while node has the missing black problem
+        while (node != root && !isRed(node)) {
+            if (parent == nullptr) {
+                break;
+            }
+
+            // node is on the left use the right sibling
+            if (node == parent->left) {
+                Node* sibling = parent->right;
+
+                // 1 red sibling, rotate to make the sibling black
+                if (isRed(sibling)) {
+                    sibling->isRed = false;
+                    parent->isRed = true;
+                    rotateLeft(parent);
+                    sibling = parent->right;
+                }
+
+                // 2 sibling and sibling's children are black
+                if (!isRed(sibling == nullptr ? nullptr : sibling->left) &&
+                    !isRed(sibling == nullptr ? nullptr : sibling->right)) {
+                    if (sibling != nullptr) {
+                        sibling->isRed = true;
+                    }
+
+                    // move the problem up to the parent
+                    node = parent;
+                    parent = node->parent;
+                }
+
+                else {
+                    //3 far child is black, rotate sibling first
+                    if (!isRed(sibling == nullptr ? nullptr : sibling->right)) {
+                        if (sibling != nullptr && sibling->left != nullptr) {
+                            sibling->left->isRed = false;
+                        }
+
+                        if (sibling != nullptr) {
+                            sibling->isRed = true;
+                            rotateRight(sibling);
+                        }
+
+                        sibling = parent->right;
+                    }
+
+                    //4 far child is red, rotate parent to finish
+                    if (sibling != nullptr) {
+                        sibling->isRed = parent->isRed;
+                    }
+
+                    parent->isRed = false;
+
+                    if (sibling != nullptr && sibling->right != nullptr) {
+                        sibling->right->isRed = false;
+                    }
+
+                    rotateLeft(parent);
+                    node = root;
+                    parent = nullptr;
+                }
+            }
+
+                // node is on the right, so use the left sibling
+            else {
+                Node* sibling = parent->left;
+
+                //1 red sibling, rotate to make the sibling black
+                if (isRed(sibling)) {
+                    sibling->isRed = false;
+                    parent->isRed = true;
+                    rotateRight(parent);
+                    sibling = parent->left;
+                }
+
+                //2 sibling and sibling's children are black
+                if (!isRed(sibling == nullptr ? nullptr : sibling->right) &&
+                    !isRed(sibling == nullptr ? nullptr : sibling->left)) {
+                    if (sibling != nullptr) {
+                        sibling->isRed = true;
+                    }
+
+                    // move the problem up to the parent
+                    node = parent;
+                    parent = node->parent;
+                }
+
+                else {
+                    //3 far child is black, rotate sibling first
+                    if (!isRed(sibling == nullptr ? nullptr : sibling->left)) {
+                        if (sibling != nullptr && sibling->right != nullptr) {
+                            sibling->right->isRed = false;
+                        }
+
+                        if (sibling != nullptr) {
+                            sibling->isRed = true;
+                            rotateLeft(sibling);
+                        }
+
+                        sibling = parent->left;
+                    }
+
+                    // 4 far child is red, rotate parent to finish
+                    if (sibling != nullptr) {
+                        sibling->isRed = parent->isRed;
+                    }
+
+                    parent->isRed = false;
+
+                    if (sibling != nullptr && sibling->left != nullptr) {
+                        sibling->left->isRed = false;
+                    }
+
+                    rotateRight(parent);
+                    node = root;
+                    parent = nullptr;
+                }
+            }
+        }
+
+        // the final node should be black
+        if (node != nullptr) {
+            node->isRed = false;
+        }
+    }
+// rotates subtree left
+    void rotateLeft(Node*& node) {
+
+        Node* rightChild = node->right;
+
+        // move right child's left subtree
+        node->right = rightChild->left;
+
+        // update parent pointer if subtree exists
+        if (rightChild->left != nullptr) {
+            rightChild->left->parent = node;
+        }
+
+        // connect right child to node's parent
+        rightChild->parent = node->parent;
+
+        // if node was root
+        if (node->parent == nullptr) {
+            root = rightChild;
+        }
+
+            // if node was left
+        else if (node == node->parent->left) {
+            node->parent->left = rightChild;
+        }
+
+            // if node was right
+        else {
+            node->parent->right = rightChild;
+        }
+
+        // put original node on left side
+        rightChild->left = node;
+
+        // update parent pointer
+        node->parent = rightChild;
+    }
+
 // rotates subtree left
     void rotateLeft(Node*& node) {
 
@@ -322,6 +512,79 @@ public:
     bool search(int value) {
         return searchNode(value) != nullptr;
     }
+    bool remove(int value) {
+        // find the node first
+        Node* node = searchNode(value);
+
+        if (node == nullptr) {
+            return false;
+        }
+
+        // movedNode is the node that is actually removed from its old spot
+        Node* movedNode = node;
+        bool movedNodeWasRed = movedNode->isRed;
+        Node* child = nullptr;
+        Node* childParent = nullptr;
+
+        //1 node has no left child
+        if (node->left == nullptr) {
+            child = node->right;
+            childParent = node->parent;
+            transplant(node, node->right);
+        }
+
+            // 2 node has no right child
+        else if (node->right == nullptr) {
+            child = node->left;
+            childParent = node->parent;
+            transplant(node, node->left);
+        }
+
+            // 3 node has two children
+        else {
+            // use the successor, which is the smallest node on the right
+            movedNode = minimum(node->right);
+            movedNodeWasRed = movedNode->isRed;
+            child = movedNode->right;
+
+            // successor is already the direct right child
+            if (movedNode->parent == node) {
+                childParent = movedNode;
+                if (child != nullptr) {
+                    child->parent = movedNode;
+                }
+            }
+
+                // move successor out of its old position
+            else {
+                childParent = movedNode->parent;
+                transplant(movedNode, movedNode->right);
+                movedNode->right = node->right;
+                movedNode->right->parent = movedNode;
+            }
+
+            // put successor where the deleted node was
+            transplant(node, movedNode);
+            movedNode->left = node->left;
+            movedNode->left->parent = movedNode;
+            movedNode->isRed = node->isRed;
+        }
+
+        delete node;
+
+        // only deleting a black node can break the red-black rules
+        if (!movedNodeWasRed) {
+            fixRemove(child, childParent);
+        }
+
+        // root always has to be black
+        if (root != nullptr) {
+            root->isRed = false;
+        }
+
+        return true;
+    }
+
 };
 
 int main() {
