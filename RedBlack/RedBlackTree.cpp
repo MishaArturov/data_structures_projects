@@ -140,7 +140,9 @@ private:
 
             Node* parent = node->parent;
             Node* grandparent = parent->parent;
-
+            if (grandparent == nullptr) {
+                break;
+            }
             // Parent is left child
             if (parent == grandparent->left) {
 
@@ -168,9 +170,8 @@ private:
                     // CASE 3: Line
                     rotateRight(grandparent);
 
-                    bool temp = parent->isRed;
-                    parent->isRed = grandparent->isRed;
-                    grandparent->isRed = temp;
+                    parent->isRed = false;
+                    grandparent->isRed = true;
 
                     node = parent;
                 }
