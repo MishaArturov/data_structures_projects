@@ -599,7 +599,9 @@ int main() {
         cout << "1. Add Number" << endl;
         cout << "2. Read File" << endl;
         cout << "3. Print Tree" << endl;
-        cout << "4. Quit" << endl;
+        cout << "4. Search Number" << endl;
+        cout << "5. Remove Number" << endl;
+        cout << "6. Quit" << endl;
         cout << "Choice: ";
 
         cin >> choice;
@@ -634,8 +636,38 @@ int main() {
             tree.print();
         }
 
-            // QUIT
+            // SEARCH
         else if (choice == 4) {
+            int num;
+            cout << "Enter number to search: ";
+            cin >> num;
+
+            if (tree.search(num)) {
+                cout << num << " is in the tree." << endl;
+            }
+
+            else {
+                cout << num << " is not in the tree." << endl;
+            }
+        }
+
+            // REMOVE
+        else if (choice == 5) {
+            int num;
+            cout << "Enter number to remove: ";
+            cin >> num;
+
+            if (tree.remove(num)) {
+                cout << num << " removed." << endl;
+            }
+
+            else {
+                cout << num << " was not found." << endl;
+            }
+        }
+
+            // QUIT
+        else if (choice == 6) {
             break;
         }
 
