@@ -28,6 +28,11 @@ struct Node {
 class RedBlackTree {
 private:
     Node* root;
+
+    bool isRed(Node* node) {
+        return node != nullptr && node->isRed;
+    }
+
     Node* searchNode(int value) {
         Node* current = root;
 
@@ -199,44 +204,6 @@ private:
             node->isRed = false;
         }
     }
-// rotates subtree left
-    void rotateLeft(Node*& node) {
-
-        Node* rightChild = node->right;
-
-        // move right child's left subtree
-        node->right = rightChild->left;
-
-        // update parent pointer if subtree exists
-        if (rightChild->left != nullptr) {
-            rightChild->left->parent = node;
-        }
-
-        // connect right child to node's parent
-        rightChild->parent = node->parent;
-
-        // if node was root
-        if (node->parent == nullptr) {
-            root = rightChild;
-        }
-
-            // if node was left
-        else if (node == node->parent->left) {
-            node->parent->left = rightChild;
-        }
-
-            // if node was right
-        else {
-            node->parent->right = rightChild;
-        }
-
-        // put original node on left side
-        rightChild->left = node;
-
-        // update parent pointer
-        node->parent = rightChild;
-    }
-
 // rotates subtree left
     void rotateLeft(Node*& node) {
 
