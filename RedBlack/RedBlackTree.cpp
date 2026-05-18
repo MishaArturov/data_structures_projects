@@ -28,6 +28,25 @@ struct Node {
 class RedBlackTree {
 private:
     Node* root;
+    Node* searchNode(int value) {
+        Node* current = root;
+
+        while (current != nullptr) { //while loop until it finds the value
+            if (value == current->data) {
+                return current;
+            }
+
+            if (value < current->data) {
+                current = current->left;
+            }
+
+            else {
+                current = current->right;
+            }
+        }
+
+        return nullptr;
+    }
 // rotates subtree left
     void rotateLeft(Node*& node) {
 
@@ -299,6 +318,9 @@ public:
         file.close();
 
         cout << "Numbers added from file." << endl;
+    }
+    bool search(int value) {
+        return searchNode(value) != nullptr;
     }
 };
 
